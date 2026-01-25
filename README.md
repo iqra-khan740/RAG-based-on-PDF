@@ -1,73 +1,164 @@
-# 🧠 Brain — A Narrative RAG-Based LLM on *The Forty Rules of Love*
+# 📄 RAG based on PDF — Document Question Answering System
 
-**Brain** is a Retrieval-Augmented Generation (RAG) project designed to make a Large Language Model (LLM) truly understand and respond contextually to *The Forty Rules of Love* by Elif Shafak.  
-The project explores how **Narrative RAG** improves comprehension and reasoning compared to **Simple RAG**, especially when dealing with complex literature involving **dual timelines and emotional context**.
+RAG based on PDF is a **Retrieval-Augmented Generation (RAG)** application that enables users to ask questions from PDF documents and receive **fact-based, document-grounded answers**.
 
----
-
-## 🌟 Project Overview
-
-The novel *The Forty Rules of Love* presents two parallel timelines:
-- 📜 **13th Century:** The spiritual connection between Rumi and Shams.
-- 💌 **Modern Era:** Ella’s personal transformation and discovery.
-
-This dual structure makes the narrative rich but challenging for AI models to interpret through standard RAG.  
-**Brain** tackles this by enhancing RAG with **narrative-aware embeddings, timeline tagging, and contextual chunking**, resulting in deeper, contextually grounded answers.
+The system combines **FAISS vector search**, **HuggingFace sentence embeddings**, and a **local Ollama LLM**, exposed via a **FastAPI backend** for real-world and production use cases.
 
 ---
 
-## ⚙️ How It Works
+## 🚀 Key Features
 
-### 🔹 Phase 1: Simple RAG
-In the initial version:
-- Text was split into small, fixed-size chunks.
-- Each chunk was converted into **embeddings** (vector representations capturing meaning).
-- These vectors were stored in a **vector database**.
-- During a query, the system retrieved the top similar chunks and used the LLM to generate answers.
-
-**Limitations:**
-- Mixed up timelines (13th-century vs. modern-day events)
-- Shallow factual answers without emotional depth
-- Weak understanding of story continuity
+- Ask natural language questions from PDF files
+- Multi-layer FAISS vector indexing for efficient retrieval
+- Local LLM inference using Ollama (no paid APIs)
+- FastAPI backend with REST endpoints
+- Windows & Linux compatible file handling
+- Scalable and modular architecture
 
 ---
 
-### 🔹 Phase 2: Narrative RAG
-The **Narrative RAG** approach enhanced the model by adding structure and context-awareness.
+## 🧠 Technology Stack
 
-**Key Improvements:**
-1. 🧩 **Contextual Chunking:** Passages were grouped by emotion, speaker, and storyline.
-2. 🕰️ **Timeline Awareness:** Each embedding was tagged (e.g., “13th century” or “modern era”).
-3. 👥 **Character Linking:** Relationships and dialogues were connected across events.
-4. 📖 **Narrative Retrieval:** Retrieval considered both similarity and story progression.
-
-**Results:**
-- The model could **differentiate between timelines**.
-- Answers became **emotionally aware and coherent**.
-- LLM explained **cause-effect relationships** more naturally.
+- **Python**
+- **FastAPI**
+- **FAISS**
+- **LangChain**
+- **HuggingFace Sentence Transformers**
+- **Ollama (Gemma 3 – 4B)**
+- **Pickle**
 
 ---
 
-## 🧠 What Are Embeddings?
+## 📂 Project Structure
 
-**Embeddings** are numerical vector representations of text that capture semantic meaning.  
-In this project, embeddings enable the LLM to:
-- Understand **contextual similarity**
-- Retrieve the **right part of the novel** during queries
-- Preserve **narrative and emotional depth**
+```
 
-Better embeddings → Better context → Smarter answers.
+RAG based on PDF/
+│
+├── faiss_layer1/                # Chunk-level embeddings
+│   ├── index.faiss
+│   └── index.pkl
+│
+├── faiss_layer2/                # Summary-level embeddings
+│   ├── index.faiss
+│   └── index.pkl
+│
+├── final_shams(full embeddings)/ # Source documents
+    └── BOOK (VS Code Editor Documentation).pdf
+    └──embeddings.ipynb          # PDF chunking & embedding pipeline
+    └──requirements.txt
+
+└──.gitignore                
+└──app.py                         # FastAPI entry point
+└──rag_engine.py
+└──README.md
+````
 
 ---
 
-## 🛠️ Tech Stack
+## ⚙️ Setup Instructions
 
-- **Language:** Python 🐍  
-- **Framework:** FastAPI ⚡  
-- **LLM:**  local model (Gemma 3:4b)  
-- **Vector Database:** FAISS  
-- **Embeddings Model:** Sentence Transformers   
-- **Frontend :** V0  (for demo)  
+### 1️⃣ Create Virtual Environment
+```bash
+
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+````
 
 ---
+
+### 2️⃣ Install Dependencies
+
+```bash
+
+pip install -r requirements.txt
+```
+
+---
+
+### 3️⃣ Install & Run Ollama
+
+using link: https://ollama.com/
+and then run
+
+```bash
+
+ollama pull gemma3:4b
+ollama serve
+```
+
+---
+
+## ▶️ Run the Application
+
+```bash
+
+python -m uvicorn app:app --reload
+```
+
+API will be available at:
+
+```
+http://127.0.0.1:8000
+```
+
+Swagger UI:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## 🔍 Example API Request
+
+**POST** `/ask`
+
+```json
+{
+  "question": "What is the main topic discussed in this document?",
+  "top_k": 3
+}
+```
+
+**Response**
+
+```json
+{
+  "answer": "The document mainly discusses..."
+}
+```
+
+---
+
+## 🧩 RAG Workflow Overview
+
+1. PDF is split into semantic chunks
+2. Chunks are embedded and stored in FAISS (Layer 1)
+3. Chunk summaries are embedded again (Layer 2)
+4. User query is embedded
+5. FAISS retrieves the most relevant contexts
+6. Retrieved content is passed to the LLM
+7. LLM generates a factual answer
+
+---
+
+## 📌 Important Notes
+
+* The system answers strictly from the PDF content
+* If no relevant context is found, it avoids hallucination
+* No internet or external APIs are required during inference
+
+---
+
+## 👩‍💻 Author
+
+**Iqra Khan**
+AI Engineer | RAG Systems | LLM Applications | FastAPI
+
+---
+
+## 📄 License
+
+This project is intended for educational and demonstration purposes.
 
