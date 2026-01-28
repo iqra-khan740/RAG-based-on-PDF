@@ -1,27 +1,39 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+env/
+ENV/
 
-# dependencies
-/node_modules
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
 
-# next.js
-/.next/
-/out/
+# VSCode
+.vscode/
 
-# production
-/build
+# Environment variables
+.env
+*.env
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+# FAISS / index files
+faiss_layer2/*.faiss
+faiss_layer2/*.pkl
 
-# env files
-.env*
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.log
+*.lock
 
-# vercel
-.vercel
+# OS files
+.DS_Store
+Thumbs.db
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# JetBrains IDEs
+.idea/
+*.iml

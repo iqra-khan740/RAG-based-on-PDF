@@ -1,27 +1,42 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from rag_engine import RAGEngine
 
-app = FastAPI(title="API OF RAG(Documentation)")
+# Import your RAGEngine class
+from rag_engine import RAGEngine  # make sure rag_engine.py is in the same folder
 
-# Load RAG once (important for speed)
+# -----------------------
+# FastAPI app
+# -----------------------
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Next.js frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# -----------------------
+# Request model
+# -----------------------
+class QuestionPayload(BaseModel):
+    question: str
+
+# -----------------------
+# Initialize RAG
+# -----------------------
 rag = RAGEngine()
 
-class QueryRequest(BaseModel):
-    question: str
-    top_k: int = 3
-
-@app.get("/")
-def health():
-    return {"status": "RAG API running"}
-
+# -----------------------
+# Endpoint
+# -----------------------
 @app.post("/ask")
-def ask_rag(request: QueryRequest):
-    answer = rag.ask(
-        question=request.question,
-        top_k=request.top_k
-    )
-    return {
-        "question": request.question,
-        "answer": answer
-    }
+async def ask_question(payload: QuestionPayload):
+    question = payload.question
+
+    # Call RAG engine
+    answer = rag.ask(question)
+
+    return {"answer": answer}

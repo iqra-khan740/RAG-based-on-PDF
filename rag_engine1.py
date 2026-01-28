@@ -23,7 +23,7 @@ FAISS_META_PATH  = os.path.join(BASE_DIR, "faiss_layer2", "index.pkl")
 # ------------------------------------------------------------------
 # RAG Engine
 # ------------------------------------------------------------------
-class RAGEngine:
+class RAGEngine1:
     def __init__(self):
         # Embedding model
         self.embedding_model = HuggingFaceEmbeddings(
