@@ -5,5 +5,7 @@ langchain-community
 faiss-cpu
 sentence-transformers
 ollama
-pypdf
 numpy
+streamlit
+requests
+beautifulsoup4

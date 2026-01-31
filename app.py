@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # Import your RAGEngine class
-from rag_engine import RAGEngine  # make sure rag_engine.py is in the same folder
+from rag_engine import RAGEngineW  # make sure rag_engine.py is in the same folder
 
 # -----------------------
 # FastAPI app
@@ -27,7 +27,7 @@ class QuestionPayload(BaseModel):
 # -----------------------
 # Initialize RAG
 # -----------------------
-rag = RAGEngine()
+rag = RAGEngineW()
 
 # -----------------------
 # Endpoint

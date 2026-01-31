@@ -1,164 +1,118 @@
-# 📄 RAG based on PDF — Document Question Answering System
+# 📄 RAG-based-on-PDF
 
-RAG based on PDF is a **Retrieval-Augmented Generation (RAG)** application that enables users to ask questions from PDF documents and receive **fact-based, document-grounded answers**.
+**RAG-based-on-PDF** is a Retrieval-Augmented Generation (RAG) system that lets users ask questions and get document-grounded answers. In this version, the system is **built on a single scraped web page** from VS Code documentation.
 
-The system combines **FAISS vector search**, **HuggingFace sentence embeddings**, and a **local Ollama LLM**, exposed via a **FastAPI backend** for real-world and production use cases.
+It uses FAISS vector search, HuggingFace embeddings, and OpenRouter LLM via a Python backend, with a Streamlit frontend for interactive usage.
 
 ---
 
 ## 🚀 Key Features
 
-- Ask natural language questions from PDF files
-- Multi-layer FAISS vector indexing for efficient retrieval
-- Local LLM inference using Ollama (no paid APIs)
-- FastAPI backend with REST endpoints
-- Windows & Linux compatible file handling
-- Scalable and modular architecture
+* Ask natural language questions from web-scraped documents
+* Efficient retrieval using FAISS embeddings
+* Context-aware answers using OpenRouter LLM
+* Streamlit frontend for interactive Q&A
+* Fully Python-based and modular architecture
 
 ---
 
 ## 🧠 Technology Stack
 
-- **Python**
-- **FastAPI**
-- **FAISS**
-- **LangChain**
-- **HuggingFace Sentence Transformers**
-- **Ollama (Gemma 3 – 4B)**
-- **Pickle**
+* **Python:** FAISS, LangChain, HuggingFace Transformers, Streamlit
+* **OpenRouter LLM** (Cloud-based)
+* **Pickle** for embeddings storage
 
 ---
 
 ## 📂 Project Structure
 
 ```
-
-RAG based on PDF/
-│
-├── faiss_layer1/                # Chunk-level embeddings
-│   ├── index.faiss
-│   └── index.pkl
-│
-├── faiss_layer2/                # Summary-level embeddings
-│   ├── index.faiss
-│   └── index.pkl
-│
-├── final_shams(full embeddings)/ # Source documents
-    └── BOOK (VS Code Editor Documentation).pdf
-    └──embeddings.ipynb          # PDF chunking & embedding pipeline
-    └──requirements.txt
-
-└──.gitignore                
-└──app.py                         # FastAPI entry point
-└──rag_engine.py
-└──README.md
-````
+RAG-based-on-PDF/
+├─ .venv/                      # Python virtual environment
+├─ scraped_docs/               # Scraped text files
+│   └─ getting_started.txt      # VS Code Getting Started page
+├─ .env                        # Environment variables
+├─ app.py                       # (Optional backend for future extensions)
+├─ App_streamlit.py            # Streamlit frontend for Q&A
+├─ faiss_index.index           # FAISS index
+├─ faiss_index.pkl             # FAISS metadata
+├─ rag_engine.py               # RAG engine implementation
+├─ web_scraping.py             # Script to scrape VS Code page
+├─ README.md
+├─ requirements.txt
+└─ other project files
+```
 
 ---
 
 ## ⚙️ Setup Instructions
 
-### 1️⃣ Create Virtual Environment
-```bash
+### 1️⃣ Environment Setup
 
+```bash
 python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-````
-
----
-
-### 2️⃣ Install Dependencies
-
-```bash
-
+.venv\Scripts\activate      # Windows
+# source .venv/bin/activate  # Linux/Mac
 pip install -r requirements.txt
 ```
 
+Add your OpenRouter API key to `.env`:
+
+```env
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+```
+
 ---
 
-### 3️⃣ Install & Run Ollama
-
-using link: https://ollama.com/
-and then run
+### 2️⃣ Run Streamlit Frontend
 
 ```bash
-
-ollama pull gemma3:4b
-ollama serve
+streamlit run App_streamlit.py
 ```
+
+Open in browser: `http://localhost:8501`
 
 ---
 
-## ▶️ Run the Application
+## ▶️ Usage
 
-```bash
+1. Open the Streamlit app in your browser
+2. Type a question in the input box
+3. The system retrieves relevant content from the scraped VS Code page and generates an answer using OpenRouter LLM
 
-python -m uvicorn app:app --reload
-```
-
-API will be available at:
-
-```
-http://127.0.0.1:8000
-```
-
-Swagger UI:
-
-```
-http://127.0.0.1:8000/docs
-```
-
----
-
-## 🔍 Example API Request
-
-**POST** `/ask`
-
-```json
-{
-  "question": "What is the main topic discussed in this document?",
-  "top_k": 3
-}
-```
-
-**Response**
-
-```json
-{
-  "answer": "The document mainly discusses..."
-}
-```
+Optional: You can show the **retrieved context** to see which text chunks were used.
 
 ---
 
 ## 🧩 RAG Workflow Overview
 
-1. PDF is split into semantic chunks
-2. Chunks are embedded and stored in FAISS (Layer 1)
-3. Chunk summaries are embedded again (Layer 2)
-4. User query is embedded
-5. FAISS retrieves the most relevant contexts
-6. Retrieved content is passed to the LLM
-7. LLM generates a factual answer
+1. The VS Code page is scraped and saved as text (`getting_started.txt`)
+2. The text is split into smaller chunks
+3. Chunks are embedded using **HuggingFace embeddings** and stored in **FAISS**
+4. User question is embedded
+5. FAISS retrieves the most relevant chunks
+6. Retrieved chunks are passed to **OpenRouter LLM**
+7. LLM generates a factual, document-grounded answer
 
 ---
 
 ## 📌 Important Notes
 
-* The system answers strictly from the PDF content
-* If no relevant context is found, it avoids hallucination
-* No internet or external APIs are required during inference
+* Answers are strictly based on the scraped page content
+* If no relevant context is found, it returns **“Not found in document”**
+* No additional internet or external APIs are required during inference (except for OpenRouter LLM calls)
 
 ---
 
 ## 👩‍💻 Author
 
 **Iqra Khan**
-AI Engineer | RAG Systems | LLM Applications | FastAPI
+AI Engineer | RAG Systems | LLM Applications | Streamlit
 
 ---
 
 ## 📄 License
 
-This project is intended for educational and demonstration purposes.
+For **educational and demonstration purposes** only.
 
+---
