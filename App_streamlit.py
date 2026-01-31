@@ -75,7 +75,7 @@ h2 {
 # Title & Description
 # -------------------------
 st.title("📄 RAG Document Q&A")
-st.subheader("Ask questions and get answers directly from your documents!")
+st.subheader("Ask questions and get answers directly from the web page!")
 
 # -------------------------
 # Sidebar Info (Scraping notice)
