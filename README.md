@@ -86,7 +86,7 @@ Optional: You can show the **retrieved context** to see which text chunks were u
 
 ## 🎥 Demo
 Watch the demo video here:
-👉 https://drive.google.com/file/d/18NWyHSh1X6fEMt5ZNHCONR0jA0ri3GPe/view?usp=drive_link
+👉 https://drive.google.com/drive/folders/1hQ1H5QJlVAmvm9sM1MyERI-o9GXKp5-z?usp=drive_link
 
 ## 🧩 RAG Workflow Overview
 
