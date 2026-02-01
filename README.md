@@ -84,6 +84,10 @@ Optional: You can show the **retrieved context** to see which text chunks were u
 
 ---
 
+## 🎥 Demo
+Watch the demo video here:
+👉 https://drive.google.com/file/d/18NWyHSh1X6fEMt5ZNHCONR0jA0ri3GPe/view?usp=drive_link
+
 ## 🧩 RAG Workflow Overview
 
 1. The VS Code page is scraped and saved as text (`getting_started.txt`)

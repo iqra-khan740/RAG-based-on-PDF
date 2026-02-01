@@ -37,3 +37,6 @@ Thumbs.db
 # JetBrains IDEs
 .idea/
 *.iml
+
+demo_video/
+*.mp4
